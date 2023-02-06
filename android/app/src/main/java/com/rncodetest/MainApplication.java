@@ -1,4 +1,4 @@
-package com.codetestau;
+package com.rncodetest;
 
 import android.app.Application;
 import com.facebook.react.PackageList;

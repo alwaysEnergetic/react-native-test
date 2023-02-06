@@ -1,8 +1,0 @@
-export const GET_NOTES = 'GET_PRODUCTS';
-export const ADD_NOTES = 'ADD_NOTES';
-export const UPDATE_NOTE = 'UPDATE_NOTE';
-export const DELETE_NOTE = 'DELETE_NOTE';
-export const SELECTED_CATEGORY = 'SELECTED_CATEGORY';
-export const SELECTED_CLIENT = 'SELECTED_CLIENT';
-export const SELECTED_NOTE = 'SELECTED_NOTE';
-export const UNSELECTED_NOTE = 'UNSELECTED_NOTE';

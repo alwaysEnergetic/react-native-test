@@ -5,22 +5,23 @@ import Button from '../components/button';
 import TextInput from '../components/text-input';
 
 import {Layout} from '../components/layout';
-import {NavigationProps, Props} from '../utils/types';
-import { useDispatch, useSelector } from 'react-redux';
-import { saveNote } from '../redux/actions/notes_action';
+import {NavigationProps} from '../utils/types';
+import { useDispatch } from 'react-redux';
 import { makeid } from '../utils/helpers';
+import useNote from '../hooks/useNote';
+import { saveNote } from '../redux/reducers/notes_slice';
 
 function Notes({navigation}: NavigationProps) {
   const [text, onChangeText] = React.useState('');
   const dispatch = useDispatch();
-  const notes = useSelector((state: Props) => state.notes);
+  const {selectedClient, selectedCategory} = useNote()
 
   const goCategory = () => {
     if(text){
       dispatch(saveNote({
         id: makeid(10),
-        category:{...notes.selectedCategory},
-        client:{...notes.selectedClient},
+        category:{...selectedCategory},
+        client:{...selectedClient},
         content:text
       }))
       onChangeText("")

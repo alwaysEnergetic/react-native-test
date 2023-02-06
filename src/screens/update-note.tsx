@@ -9,15 +9,17 @@ import {Layout} from '../components/layout';
 import {NavigationProps, Props} from '../utils/types';
 import {useDispatch, useSelector} from 'react-redux';
 import {ButtonGroupContainer} from '../common/styles';
-import {deleteNote, updateNote} from '../redux/actions/notes_action';
+import useNote from '../hooks/useNote';
+import _ from 'lodash';
+import { deleteNote, updateNote } from '../redux/reducers/notes_slice';
 
 function UpdateNote({navigation}: NavigationProps) {
   const [text, onChangeText] = React.useState('');
   const dispatch = useDispatch();
-  const note = useSelector((state: Props) => state.notes.selectedNote);
+  const {selectedNote} = useNote();
 
   const update = (note: Props) => {
-    if(text){
+    if (text) {
       dispatch(
         updateNote({
           id: note.id,
@@ -29,9 +31,8 @@ function UpdateNote({navigation}: NavigationProps) {
       onChangeText('');
       navigation.popToTop();
     } else {
-      Toast.show("Please enter note",3)
+      Toast.show('Please enter note', 3);
     }
-    
   };
 
   const deleteNoteById = (id: string) => {
@@ -40,19 +41,24 @@ function UpdateNote({navigation}: NavigationProps) {
   };
 
   useEffect(() => {
-    onChangeText(note.content);
-  }, [note]);
+    !_.isEmpty(selectedNote);
+    onChangeText(selectedNote.content);
+  }, [selectedNote]);
 
   return (
     <Layout>
       <ButtonGroupContainer>
-        <Text>{`Category: ${note.category.name}`}</Text>
-        <Text>{`Client: ${note.client.name}`}</Text>
-        <TextInput onChange={onChangeText} value={text} placeholder='Please enter note'/>
-        <Button title="Edit Note" onPress={() => update(note)} />
+        <Text>{`Category: ${selectedNote.category.name}`}</Text>
+        <Text>{`Client: ${selectedNote.client.name}`}</Text>
+        <TextInput
+          onChange={onChangeText}
+          value={text}
+          placeholder="Please enter note"
+        />
+        <Button title="Edit Note" onPress={() => update(selectedNote)} />
         <Button
           title="Delete Note"
-          onPress={() => deleteNoteById(note.id)}
+          onPress={() => deleteNoteById(selectedNote.id)}
           error
         />
       </ButtonGroupContainer>
